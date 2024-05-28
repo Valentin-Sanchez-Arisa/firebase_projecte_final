@@ -15,7 +15,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
     width: 100vw;
     flex-direction: column;
 
@@ -180,5 +180,15 @@ h1{
     background-color: #09c933;
     color: white;
     
+
+}
+
+
+
+
+.subirPost{
+
+    display: flex;
+    justify-content: center;
 
 }
