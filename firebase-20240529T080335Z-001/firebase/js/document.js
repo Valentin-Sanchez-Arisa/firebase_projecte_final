@@ -67,6 +67,23 @@ document.getElementById("signup").addEventListener("click", async function () {
     let nombre = document.getElementById("signupName").value; 
     let userName = document.getElementById("signupUserName").value; 
 
+    //Parte para subir la imagen al storage de firebase y obtener la URL
+    let image = document.getElementById("imgPerfilSignup").files[0];
+    let doc = {
+        content: "Perfil",
+    };
+
+    uploadFile(image)
+        .then((imageUrl) => {
+            doc.image = imageUrl;
+        })
+        .catch(() => {
+            showAlert("Error al intentar guardar l'element", "alert-danger");
+        });
+    
+
+
+
     if (email.length > 0 && email.indexOf("@") > 1) {
         if (password.length > 0) {
             if (password === passwordConfirm) {
@@ -75,15 +92,25 @@ document.getElementById("signup").addEventListener("click", async function () {
                     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                     var uid = userCredential.uid
                         // Crear documento en Firestore usando UID del usuario
-                        await db.collection('usuari').doc(uid).set({
-                            uid: uid,
-                            email: userCredential.email,
-                            nombre: nombre,
-                            nomUsuari: userName,
-                            foto: "https://firebasestorage.googleapis.com/v0/b/pico-49755.appspot.com/o/imatges%2FUsuari.jpg?alt=media&token=e9b9de00-7a13-4611-a011-4d26a6027e94"
+                        //Si no tiene imagen subida, se le asigna una por defecto
+                        if(image == null){ 
+                            await db.collection('usuari').doc(uid).set({
+                                uid: uid,
+                                email: userCredential.email,
+                                nombre: nombre,
+                                nomUsuari: userName,
+                                foto: "https://firebasestorage.googleapis.com/v0/b/pico-49755.appspot.com/o/imatges%2FUsuari.jpg?alt=media&token=e9b9de00-7a13-4611-a011-4d26a6027e94"
 
-                            // peliculasFav: []
-                        });
+                            });
+                        }else{
+                            await db.collection('usuari').doc(uid).set({
+                                uid: uid,
+                                email: userCredential.email,
+                                nombre: nombre,
+                                nomUsuari: userName,
+                                foto: doc.image
+                            });
+                        }
                         console.log('Usuario registrado y documento creado en Firestore');
                         showAlert("Usuari registrat amb èxit", "alert-success");
                         document.getElementById("signupForm").style.display = "none";
@@ -101,37 +128,6 @@ document.getElementById("signup").addEventListener("click", async function () {
         showAlert("Email incorrecte", "alert-danger");
     }
 });
-
-
-// document.getElementById("signup").addEventListener("click", function () {
-//     let email = document.getElementById("signupEmail").value;
-//     let password = document.getElementById("signupPassword").value;
-//     let passwordConfirm = document.getElementById("signupPasswordConfirm").value;
-
-//     if (email.length > 0 && email.indexOf("@") > 1) {
-//         if (password.length > 0) {
-//             if (password == passwordConfirm) {
-//                 auth.createUserWithEmailAndPassword(email, password)
-//                     .then(function () {
-//                         showAlert("Usuari creat correctament", "alert-success");
-
-//                         document.getElementById("loginForm").style.display = "block";
-//                         document.getElementById("signupForm").style.display = "none";
-                        
-//                     })
-//                     .catch(function (error) {
-//                         showAlert("Error al intentar crear l'usuari", "alert-danger");
-//                     });
-//             } else {
-//                 showAlert("Les contrasenyes no coincideixen", "alert-danger");
-//             }
-//         } else {
-//             showAlert("La contrasenya és obligatòria", "alert-danger");
-//         }
-//     } else {
-//         showAlert("Email incorrecte", "alert-danger");
-//     }
-// });
 
 
 
