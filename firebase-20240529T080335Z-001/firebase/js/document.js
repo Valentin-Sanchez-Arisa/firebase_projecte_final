@@ -59,25 +59,38 @@ document.getElementById("newUser").addEventListener("click", function () {
     document.getElementById("itemsForm").style.display = "none";
 });
 
-document.getElementById("signup").addEventListener("click", function () {
+
+document.getElementById("signup").addEventListener("click", async function () {
     let email = document.getElementById("signupEmail").value;
     let password = document.getElementById("signupPassword").value;
     let passwordConfirm = document.getElementById("signupPasswordConfirm").value;
+    let nombre = document.getElementById("signupName").value; 
+    let userName = document.getElementById("signupUserName").value; 
 
     if (email.length > 0 && email.indexOf("@") > 1) {
         if (password.length > 0) {
-            if (password == passwordConfirm) {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then(function () {
-                        showAlert("Usuari creat correctament", "alert-success");
+            if (password === passwordConfirm) {
+                try {
+                    // Registrar usuario con Firebase Auth
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    var uid = userCredential.uid
+                        // Crear documento en Firestore usando UID del usuario
+                        await db.collection('usuari').doc(uid).set({
+                            uid: uid,
+                            email: userCredential.email,
+                            nombre: nombre,
+                            nomUsuari: userName,
+                            foto: "https://firebasestorage.googleapis.com/v0/b/pico-49755.appspot.com/o/imatges%2FUsuari.jpg?alt=media&token=e9b9de00-7a13-4611-a011-4d26a6027e94"
 
-                        document.getElementById("loginForm").style.display = "block";
+                            // peliculasFav: []
+                        });
+                        console.log('Usuario registrado y documento creado en Firestore');
+                        showAlert("Usuari registrat amb èxit", "alert-success");
                         document.getElementById("signupForm").style.display = "none";
-                        
-                    })
-                    .catch(function (error) {
-                        showAlert("Error al intentar crear l'usuari", "alert-danger");
-                    });
+                        document.getElementById("loginForm").style.display = "block";
+                } catch (error) {
+                    showAlert("Error registrant l'usuari: " + error.message, "alert-danger");
+                }
             } else {
                 showAlert("Les contrasenyes no coincideixen", "alert-danger");
             }
@@ -88,6 +101,41 @@ document.getElementById("signup").addEventListener("click", function () {
         showAlert("Email incorrecte", "alert-danger");
     }
 });
+
+
+// document.getElementById("signup").addEventListener("click", function () {
+//     let email = document.getElementById("signupEmail").value;
+//     let password = document.getElementById("signupPassword").value;
+//     let passwordConfirm = document.getElementById("signupPasswordConfirm").value;
+
+//     if (email.length > 0 && email.indexOf("@") > 1) {
+//         if (password.length > 0) {
+//             if (password == passwordConfirm) {
+//                 auth.createUserWithEmailAndPassword(email, password)
+//                     .then(function () {
+//                         showAlert("Usuari creat correctament", "alert-success");
+
+//                         document.getElementById("loginForm").style.display = "block";
+//                         document.getElementById("signupForm").style.display = "none";
+                        
+//                     })
+//                     .catch(function (error) {
+//                         showAlert("Error al intentar crear l'usuari", "alert-danger");
+//                     });
+//             } else {
+//                 showAlert("Les contrasenyes no coincideixen", "alert-danger");
+//             }
+//         } else {
+//             showAlert("La contrasenya és obligatòria", "alert-danger");
+//         }
+//     } else {
+//         showAlert("Email incorrecte", "alert-danger");
+//     }
+// });
+
+
+
+
 
 document.getElementById("save").addEventListener("click", function () {
     let id = document.getElementById("elementId").value;
