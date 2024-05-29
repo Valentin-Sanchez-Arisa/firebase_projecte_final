@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Pico</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+</head>
+
+<body>
+	<div class="divCentral">
+		<div class="divInicios" id="divInicio">
+
+			<!-- DIV mostrar opciones -->
+			<div class="eleccionMetodo" id="inicio">
+
+				<div class="perfil">
+					<img src="imatges/ico.png" alt="" srcset="">
+				</div>
+
+				<div class="metodo">
+					<h1>
+						Coneix el que pasa al món
+					</h1>
+					<h2>
+						Uneix-te i comparteix les teves experiències
+					</h2>
+
+					<div class="botonesDiv">
+						
+						<button type="button" class="boton" id="firstButton">Entrar</button>
+						<button type="button" class="boton" id="newUser">Registrar un nou usuari</button>
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- Div de login inicial -->
+			
+			<div id="loginForm" style="display: none;">
+				
+				<form class="FormInicio">
+					<div>
+						<h2>
+							Iniciar sessió
+						</h2>
+						<label for="title"><h2>Correu electrònic:</h2></label>
+						
+						<input type="email" id="loginEmail">
+						
+					</div>
+					<div >
+						<label for="content" ><h2>Contrasenya:</h2> </label>
+						
+						<input type="password"  id="loginPassword">
+						
+					</div>
+					<div >
+						<button type="button" id="login">Entrar</button>
+						<button type="button" id="newUser2">Registrar un nou usuari</button>
+					</div>
+				</form>
+			</div>
+
+
+			<!-- Div de crear usuari -->
+			<div id="signupForm" style="display: none;">
+				<form class="FormInicio">
+					<div >
+						<h2>
+							Crear un compte
+						</h2>
+						<label for="title" class="col-4 col-form-label"><h2>Correu electrònic:</h2></label>
+						<input type="email" class="form-control" id="signupEmail">
+					</div>
+					<div>
+						<label for="content" > <h2>Contrasenya:</h2></label>
+						
+						<input type="password" id="signupPassword">
+					</div>
+					<div >
+						<label for="content" > <h2>Confirmar contrasenya:</h2></label>
+						
+						<input type="password"id="signupPasswordConfirm">
+					</div>
+					<div >
+						
+						<button type="button" id="signup">Enviar</button>
+						
+					</div>
+				</form>
+			</div>
+
+	</div>
+
+	<div class="divRed">
+
+			
+		<!-- Div de subir y mostrar contenido -->
+		<div id="itemsForm" style="display: none;" class="subirPost">
+			<form>
+				<textarea name="contenido" rows="4" cols="50" id="content" placeholder="Comenta el que está passant"></textarea>
+				<input type="file" class="inputImg" id="image">
+				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 60px; visibility: hidden;" alt="imatge">
+				<button type="button" id="save" >Pico</button>
+				<input type="hidden" id="elementId">
+			</form>
+		</div>
+
+
+		
+		<div class="alerta">
+			<div id="alert" role="alert"></div>
+		</div>
+		</div>
+		<table id="listItems" style="display: none;">
+		</table>
+	</div>
+
+</body>
+
+
+
+<script language="javascript" src="js/config.js"></script>
+<script language="javascript" src="js/firestore.js"></script>
+<script language="javascript" src="js/storage.js"></script>
+<script language="javascript" src="js/items.js"></script>
+<script src="js/document.js"></script>
+
+</html>
