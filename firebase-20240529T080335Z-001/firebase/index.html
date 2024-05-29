@@ -11,6 +11,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+	<link rel="icon" href="imatges/ico.png" type="image/png">
 </head>
 
 <body>
@@ -110,16 +111,19 @@
 
 	<div class="divRed">
 
-			
 		<!-- Div de subir y mostrar contenido -->
-		<div id="itemsForm" style="display: none;" class="subirPost">
+		<div id="itemsForm" class="subirPost">
 			<form>
-				<textarea name="contenido" rows="4" cols="50" id="content" placeholder="Comenta el que está passant"></textarea>
-				<input type="file" class="inputImg" id="image">
-				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 60px; visibility: hidden;" alt="imatge">
-				<button type="button" id="save" >Pico</button>
+				<input type="file" class="inputImg" id="image" style="display: none;">
+				<label for="image" class="custom-file-upload">
+					<img src="imatges/upload.png" alt="Upload Icon" class="upload-icon">
+					Pujar contingut
+				</label>
+				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 20px; visibility: hidden;" alt="imatge">
+				<textarea name="contenido" rows="4" cols="20" id="content" placeholder="Escriu un comentari en la fotografia."></textarea>
+				<button class="pico" type="button" id="save">Pico</button>
 				<input type="hidden" id="elementId">
-			</form>
+		  </form>
 		</div>
 
 

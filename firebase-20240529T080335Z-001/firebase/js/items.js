@@ -44,40 +44,55 @@ function loadItems() {
                                                                 <th></th>
                                                             </tr>`;
             arrayItems.forEach((doc) => {
-                let image = "";
+                let image = "imatges/LogoPico.png"; 
                 if (doc.data().image != null) {
-                    image = `<div class="image-container">
-                                <div class="barra-separadora"></div> <!-- Aquí agregamos la barra separadora encima de la imagen -->
-                                <img src="${doc.data().image}" class="rounded image-item">
-                             </div>`;
+                    image = doc.data().image;
                 }
+
+                let username = "Nombre del Usuario"; 
+                if (doc.data().username) {
+                    username = doc.data().username;
+                }
+
                 document.getElementById("listItems").innerHTML += `
-                                                                 <tr class="divInicios item-container" id="divInicio">
-                                                                    <td colspan="3" style="text-align: center; position: relative; width: 50%; height: 50%">
-                                                                        <div class="dropdown" style="position: absolute; top: 10px; left: 10px;">
-                                                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                                <i class="fas fa-ellipsis-v"></i>
-                                                                            </button>
-                                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                                <button class="dropdown-item" onclick="editItem('${doc.id}')">Editar</button>
-                                                                                <button class="dropdown-item" onclick="deleteItem('${doc.id}', '${doc.data().image}')">Eliminar</button>
-                                                                            </div>
-                                                                        </div>
-                                                                        ${image} </br>
-                                                                        <div style="text-align: center;">
-                                                                            ${doc.data().content}
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                </br>`;
-                                                                
+                    <tr class="divInicios item-container" id="divInicio">
+                        <td colspan="3" style="text-align: center; position: relative; width: 50%; height: 50%">
+                            <div class="post">
+                                <div class="parteUser">
+                                    <div class="fotoPerfil">
+                                        <img src="imatges/ico.png" alt="Perfil">
+                                    </div>
+                                    <div class="dropdown" style="position: absolute; top: 10px; right: 10px;">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button class="dropdown-item" onclick="editItem('${doc.id}')">Editar</button>
+                                        <button class="dropdown-item" onclick="deleteItem('${doc.id}', '${doc.data().image}')">Eliminar</button>
+                                    </div>
+                                </div>
+                                    <div>
+                                        ${username}
+                                    </div>
+                                </div>
+                                <div class="divContenido">
+                                    <div class="divImgContenido">
+                                        <img src="${image}" alt="Contenido" class="rounded image-item" style="max-width: 100%; height: 100%;">
+                                    </div>
+                                    <div>
+                                        ${doc.data().content}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
             });
         })
         .catch(() => {
             showAlert("Error al mostrar els elements", "alert-danger");
         });
 }
-
 
 
 
@@ -98,3 +113,20 @@ function updateItem(id, doc) {
             showAlert("Error al intentar actualitzat l'element", "alert-danger");
         });
 }
+
+
+
+
+document.getElementById('image').addEventListener('change', function() {
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var thumbnail = document.getElementById('thumbnail');
+            thumbnail.src = e.target.result;
+            thumbnail.style.visibility = 'visible';
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
