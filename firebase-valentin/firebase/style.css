@@ -21,7 +21,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     flex-direction: column;
 }
 
@@ -277,20 +277,23 @@ textarea {
     width: 100%;
     box-sizing: border-box;
     background-color: #09c933;
-    padding: 0;
+    padding: 3px;
     position: relative;
 }
 
 .fotoPerfil {
     width: 50px;
-    height: 15px;
+    height: 50px;
     border-radius: 10000px;
-    margin: 1rem;
-    padding: 0;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: grey;
+    border-radius: 100;
+    overflow: hidden;
+    border: 2px solid white;
+
     
 }
 
@@ -324,7 +327,7 @@ textarea {
 .divImgContenido img {
     width: 100%;
     height: 100%;
-    object-fit:contain;
+    object-fit: cover;
     object-position: center;
 }
 
@@ -370,12 +373,13 @@ textarea {
     width: 700px;
     background-color: black;
     margin-top: 1rem;
+
 }
 
 
 .fotoPerfil img {
-    width: 40px;
-    border-radius: 10000px;
+    overflow: hidden;
+    width: 50px;
 }
 
 /* Nuevos estilos */
@@ -462,9 +466,6 @@ font-size: 23px;
     flex-direction: column;
     background-color: black;
     color: white;
-    font-family: Arial, sans-serif;
-    padding: 0;
-    margin: 0;
     box-sizing: border-box;
 
 }
@@ -472,3 +473,67 @@ font-size: 23px;
 
 
 
+/* css cambiado para hacer zoom a la imagen */
+/* The Modal (background) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 70%;  /* Ajusta el ancho al 60% del contenedor */
+    max-width: 500px;  /* Máximo ancho de la imagen */
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 70%;  /* Ajusta el ancho al 60% del contenedor */
+    max-width: 500px;  /* Máximo ancho del texto */
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+}
+
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}

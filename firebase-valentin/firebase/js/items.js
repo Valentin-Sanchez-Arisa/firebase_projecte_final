@@ -111,7 +111,7 @@ function loadItems() {
                             </div>
                             <div class="divContenido">
                                 <div class="divImgContenido">
-                                    <img src="${image}">
+                                    <img src="${image}" class="post-image" alt="${doc.data().content}">
                                 </div>
                                 <div>
                                     ${doc.data().content}
@@ -135,6 +135,26 @@ function loadItems() {
 }
 
 
+
+// Poner para hacer zoom en la imagen
+document.addEventListener("DOMContentLoaded", function() {
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImage");
+    var captionText = document.getElementById("caption");
+    var closeBtn = document.getElementsByClassName("close")[0];
+
+    document.addEventListener("click", function(event) {
+        if (event.target.classList.contains("post-image")) {
+            modal.style.display = "block";
+            modalImg.src = event.target.src;
+            captionText.innerHTML = event.target.alt;
+        }
+    });
+
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+});
 
 
 

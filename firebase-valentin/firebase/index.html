@@ -120,7 +120,7 @@
 					<img src="imatges/upload.png" alt="Upload Icon" class="upload-icon">
 					Pujar contingut
 				</label>
-				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 20px; visibility: hidden;" alt="imatge">
+				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 20px; visibility: hidden;">
 				<textarea name="contenido" rows="4" cols="20" id="content" placeholder="Escriu un comentari en la fotografia."></textarea>
 				<button class="pico" type="button" id="save">Pico</button>
 				<input type="hidden" id="elementId">
@@ -133,13 +133,21 @@
 			<div id="alert" role="alert"></div>
 		</div>
 		</div>
-		<div class="claseDivItems">
-			<link rel="import" href="formatoPost.html">
-		</div>
+
 		
 		<div id="listItems" style="display: none;" class="claseDivItems">
+			
+		
 		</div>
 		
+	</div>
+
+
+
+	<div id="imageModal" class="modal">
+		<span class="close">&times;</span>
+		<img class="modal-content" id="modalImage">
+		<div id="caption"></div>
 	</div>
 
 </body>

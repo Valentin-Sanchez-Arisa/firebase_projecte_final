@@ -35,7 +35,7 @@ document.getElementById("login").addEventListener("click", function () {
             showAlert("Usuari autenticat", "alert-success");
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("itemsForm").style.display = "block";
-            document.getElementById("listItems").style.display = "block";
+            document.getElementById("listItems").style.display = "flex";
             document.getElementById("divInicio").style.display = "none";
             localStorage.setItem("user", email);
             localStorage.setItem("password", password);
