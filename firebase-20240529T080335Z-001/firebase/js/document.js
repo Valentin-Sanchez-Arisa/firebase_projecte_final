@@ -59,6 +59,12 @@ document.getElementById("newUser").addEventListener("click", function () {
     document.getElementById("itemsForm").style.display = "none";
 });
 
+document.getElementById("newUser2").addEventListener("click", function () {
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("signupForm").style.display = "block";
+    document.getElementById("itemsForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "none";
+});
 
 document.getElementById("signup").addEventListener("click", async function () {
     let email = document.getElementById("signupEmail").value;
@@ -140,6 +146,8 @@ document.getElementById("save").addEventListener("click", function () {
     let doc = {
         content: content,
     };
+    
+
 
     if (id == "") {
         uploadFile(image)

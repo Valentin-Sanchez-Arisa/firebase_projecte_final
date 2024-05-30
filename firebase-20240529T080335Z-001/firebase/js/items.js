@@ -1,18 +1,69 @@
-const items = db.collection("items");
+const items = db.collection("publicacio");
+const storageRef = storage.ref();
+
+// function addItem(doc) {
+//     // add(items, doc)
+//     var uid = firebase.auth().currentUser.uid;
+//     var content = document.getElementById("content").value;
+//     var imageUrl = document.getElementById("image").files[0];
+
+//     db.collection('publicacio').add({
+//         uid: uid,
+//         content: content,
+//         image: imageUrl,
+//     })
+//         .then(() => {
+//             loadItems();
+//             document.getElementById("content").value = "";
+//             document.getElementById("image").value = "";
+
+//             showAlert("Element guardat correctament", "alert-success");
+//         })
+//         .catch(() => {
+//             showAlert("Error al intentar guardar l'element", "alert-danger");
+//         });
+// }
 
 function addItem(doc) {
-    add(items, doc)
-        .then(() => {
-            loadItems();
-            document.getElementById("content").value = "";
-            document.getElementById("image").value = "";
+    var uid = firebase.auth().currentUser.uid;
+    var content = document.getElementById("content").value;
+    var imageFile = document.getElementById("image").files[0];
 
-            showAlert("Element guardat correctament", "alert-success");
-        })
-        .catch(() => {
-            showAlert("Error al intentar guardar l'element", "alert-danger");
+    // Crear una referencia a 'images/uid/filename'
+    var imageRef = storageRef.child('images/' + uid + '/' + imageFile.name);
+
+    // Subir el archivo de imagen a Firebase Storage
+    var uploadTask = imageRef.put(imageFile);
+
+    // Escuchar los cambios de estado
+    uploadTask.on('state_changed', function(snapshot) {
+        // Puedes mostrar una barra de progreso con snapshot.bytesTransferred / snapshot.totalBytes
+    }, function(error) {
+        // Manejar el error de subida
+        showAlert("Error al subir la imagen", "alert-danger");
+    }, function() {
+        // Cuando la subida se ha completado con éxito, obtener la URL de la imagen
+        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            // Añadir un nuevo documento a la colección 'publicacio' con la URL de la imagen
+            db.collection('publicacio').add({
+                uid: uid,
+                content: content,
+                image: downloadURL,
+            })
+            .then(() => {
+                loadItems();
+                document.getElementById("content").value = "";
+                document.getElementById("image").value = "";
+
+                showAlert("Element guardat correctament", "alert-success");
+            })
+            .catch(() => {
+                showAlert("Error al intentar guardar l'element", "alert-danger");
+            });
         });
+    });
 }
+
 
 function deleteItem(id) {
     deleteById(items, id)
@@ -36,6 +87,9 @@ function editItem(id) {
             showAlert("Error al intentar editar l'element", "alert-danger");
         });
 }
+
+
+
 function loadItems() {
     selectAll(items)
         .then((arrayItems) => {
@@ -45,52 +99,72 @@ function loadItems() {
                                                             </tr>`;
             arrayItems.forEach((doc) => {
                 let image = "imatges/LogoPico.png"; 
+                
                 if (doc.data().image != null) {
                     image = doc.data().image;
                 }
 
-                let username = "Nombre del Usuario"; 
-                if (doc.data().username) {
-                    username = doc.data().username;
-                }
+                // Obtener el id del usuario que ha creado la publicación
+                let uid = doc.data().uid;
+                
+                // Obtener el nombre de usuario del usuario que ha creado la publicación
 
-                document.getElementById("listItems").innerHTML += `
-                    <tr class="divInicios item-container" id="divInicio">
-                        <td colspan="3" style="text-align: center; position: relative; width: 50%; height: 50%">
-                            <div class="post">
-                                <div class="parteUser">
-                                    <div class="fotoPerfil">
-                                        <img src="imatges/ico.png" alt="Perfil">
+                // Obtener el nombre de usuario del usuario que ha creado la publicación
+                db.collection('usuari').doc(uid).get()
+                    .then((userDoc) => {
+                        var username = userDoc.data().nomUsuari;
+                        //obtener la foto de perfil del usuario
+                        var enlaceFoto = userDoc.data().foto;
+
+                        document.getElementById("listItems").innerHTML += `
+                        <tr class="divInicios item-container" id="divInicio">
+                            <td colspan="3" style="text-align: center; position: relative; width: 50%; height: 50%">
+                                <div class="post">
+                                    <div class="parteUser">
+                                        <div class="fotoPerfil">
+                                            <img src="${enlaceFoto}" alt="Perfil">
+                                        </div>
+                                        <div class="dropdown" style="position: absolute; top: 10px; right: 10px;">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button class="dropdown-item" onclick="editItem('${doc.id}')">Editar</button>
+                                            <button class="dropdown-item" onclick="deleteItem('${doc.id}', '${doc.data().image}')">Eliminar</button>
+                                        </div>
                                     </div>
-                                    <div class="dropdown" style="position: absolute; top: 10px; right: 10px;">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <button class="dropdown-item" onclick="editItem('${doc.id}')">Editar</button>
-                                        <button class="dropdown-item" onclick="deleteItem('${doc.id}', '${doc.data().image}')">Eliminar</button>
+                                        <div>
+                                            ${username}
+                                        </div>
+                                    </div>
+                                    <div class="divContenido">
+                                        <div class="divImgContenido">
+                                            <img src="${image}" alt="Contenido" class="rounded image-item" style="max-width: 100%; height: 100%;">
+                                        </div>
+                                        <div>
+                                            ${doc.data().content}
+                                        </div>
                                     </div>
                                 </div>
-                                    <div>
-                                        ${username}
-                                    </div>
-                                </div>
-                                <div class="divContenido">
-                                    <div class="divImgContenido">
-                                        <img src="${image}" alt="Contenido" class="rounded image-item" style="max-width: 100%; height: 100%;">
-                                    </div>
-                                    <div>
-                                        ${doc.data().content}
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+                            </td>
+                        </tr>
+                        `;
+                    })
+                    .catch(() => {
+                        // Si no se puede obtener el nombre de usuario, mostrar un mensaje de error CUANDO NO ES LA PAGINA DE INICIO
+                        if(document.getElementById("inicio").style.display == "none"){
+                            showAlert("Error al obtener el nombre de usuario", "alert-danger");
+                        }
+                    });
+
+
             });
         })
         .catch(() => {
-            showAlert("Error al mostrar els elements", "alert-danger");
+                // Si no se pueden obtener los elementos, mostrar un mensaje de error CUANDO NO ES LA PAGINA DE INICIO
+            if(document.getElementById("inicio").style.display == "none"){
+                showAlert("Error al mostrar els elements", "alert-danger");
+            }
         });
 }
 
