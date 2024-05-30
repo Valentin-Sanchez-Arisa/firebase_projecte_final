@@ -79,6 +79,9 @@ function loadItems() {
             arrayItems.forEach((doc) => {
                 let image = "imatges/LogoPico.png"; 
                 
+                //guardar el id del usuario actual en una variable
+                var uidActual = firebase.auth().currentUser.uid;
+
                 if (doc.data().image != null) {
                     image = doc.data().image;
                 }
@@ -90,35 +93,67 @@ function loadItems() {
                         var username = userDoc.data().nomUsuari;
                         var enlaceFoto = userDoc.data().foto;
 
-                        document.getElementById("listItems").innerHTML += `
-                        <div class="post">
-                            <div class="parteUser">
-                                <div class="fotoPerfil">
-                                    <img src="${enlaceFoto}" alt="Perfil">
+                        if (uidActual == uid) {
+
+                            document.getElementById("listItems").innerHTML += `
+                            <div class="post">
+                                <div class="parteUser">
+                                    <div class="fotoPerfil">
+                                        <img src="${enlaceFoto}" alt="Perfil">
+                                    </div>
+                                    <div class="username">
+                                        ${username}
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button class="dropdown-item" onclick="editItem('${doc.id}')">Editar</button>
+                                            <button class="dropdown-item" onclick="deleteItem('${doc.id}', '${doc.data().image}')">Eliminar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="username">
-                                    ${username}
-                                </div>
-                                <div class="dropdown">
-                                    <button class="dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <button class="dropdown-item" onclick="editItem('${doc.id}')">Editar</button>
-                                        <button class="dropdown-item" onclick="deleteItem('${doc.id}', '${doc.data().image}')">Eliminar</button>
+                                <div class="divContenido">
+                                    <div class="divImgContenido">
+                                        <img src="${image}" class="post-image" alt="${doc.data().content}">
+                                    </div>
+                                    <div class="divTextoContenido">
+                                        ${doc.data().content}
                                     </div>
                                 </div>
                             </div>
-                            <div class="divContenido">
-                                <div class="divImgContenido">
-                                    <img src="${image}" class="post-image" alt="${doc.data().content}">
+                            `;
+                        }else{
+                            
+                            
+                            document.getElementById("listItems").innerHTML += `
+                            <div class="post">
+                                <div class="parteUser">
+                                    <div class="fotoPerfil">
+                                        <img src="${enlaceFoto}" alt="Perfil">
+                                    </div>
+                                    <div class="username">
+                                        ${username}
+                                    </div>
+                                    <div class="dropdown">
+                               
+                                    </div>
                                 </div>
-                                <div>
-                                    ${doc.data().content}
+                                <div class="divContenido">
+                                    <div class="divImgContenido">
+                                        <img src="${image}" class="post-image" alt="${doc.data().content}">
+                                    </div>
+                                    <div class="divTextoContenido">
+                                        ${doc.data().content}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        `;
+                            `;
+
+                        }
+
+
                     })
                     .catch(() => {
                         if(document.getElementById("inicio").style.display == "none"){
