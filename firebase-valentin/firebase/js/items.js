@@ -1,6 +1,6 @@
 const items = db.collection("publicacio");
 const storageRef = storage.ref();
-
+const comentari = db.collection("comentari");
 
 function addItem(doc) {
     var uid = firebase.auth().currentUser.uid;
@@ -147,6 +147,9 @@ function loadItems() {
                                     <div class="divTextoContenido">
                                         ${doc.data().content}
                                     </div>
+                                    <div class="divLike">
+                                        <button class="btnLike" onclick="irComentarios(doc)">Comentaris</button>
+                                    </div>
                                 </div>
                             </div>
                             `;
@@ -228,4 +231,75 @@ document.getElementById('image').addEventListener('change', function() {
         reader.readAsDataURL(file);
     }
 });
+
+
+
+
+
+
+
+// .......................................................
+
+// COMENTARIOS DE LOS POSTS
+
+// .......................................................
+
+
+function irComentarios(doc){
+
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("divPaginaComentarios").style.display = "flex";
+    document.getElementById("listItems").style.display = "none";
+
+    var uid = doc.data().uid;
+    var content = doc.data().content;
+    var image = doc.data().image;
+    var id = doc.id;
+    var uidActual = firebase.auth().currentUser.uid;
+
+
+
+    selectAll(comentari)
+        .then((arrayComent) => {
+            document.getElementById("divPaginaComentario").innerHTML = "";
+            arrayComent.forEach((doc) => {
+                
+                db.collection('usuari').doc(uid).get()
+                    .then((userDoc) => {
+
+                        // Mostrar los comentarios de un post
+                        document.getElementById("divPaginaComentario").innerHTML += `
+                            <div>
+
+                                <div>
+
+                                </div>
+
+                            </div>
+                            `;
+
+                        
+
+                    })
+                    .catch(() => {
+                        if(document.getElementById("inicio").style.display == "none"){
+                            showAlert("Error al obtener el nombre de usuario", "alert-danger");
+                        }
+                    });
+            });
+        })
+        .catch(() => {
+            if(document.getElementById("inicio").style.display == "none"){
+                showAlert("Error al mostrar els elements", "alert-danger");
+            }
+        });
+
+
+}
+
+
+
+
+
+
 

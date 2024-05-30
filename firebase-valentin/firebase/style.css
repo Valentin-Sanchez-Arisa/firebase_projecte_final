@@ -492,9 +492,8 @@ font-size: 23px;
 /* The Modal (background) */
 .modal {
     display: none;
+    padding-top: 50px;
     position: fixed;
-    z-index: 1;
-    padding-top: 100px;
     left: 0;
     top: 0;
     width: 100%;
@@ -508,8 +507,8 @@ font-size: 23px;
 .modal-content {
     margin: auto;
     display: block;
-    width: 70%;  /* Ajusta el ancho al 60% del contenedor */
-    max-width: 500px;  /* Máximo ancho de la imagen */
+    width: 100%;  /* Ajusta el ancho al 60% del contenedor */
+    max-width: 800px;  /* Máximo ancho de la imagen */
 }
 
 /* Caption of Modal Image (Image Text) - Same Width as the Image */
