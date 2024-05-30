@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Pico</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+	<link rel="icon" href="imatges/ico.png" type="image/png">
+</head>
+
+<body>
+	<div class="divCentral">
+		<div class="divInicios" id="divInicio">
+
+			<!-- DIV mostrar opciones -->
+			<div class="eleccionMetodo" id="inicio">
+
+				<div class="perfil">
+					<img src="imatges/ico.png" alt="" srcset="">
+				</div>
+
+				<div class="metodo">
+					<h1>
+						Coneix el que pasa al món
+					</h1>
+					<h2>
+						Uneix-te i comparteix les teves experiències
+					</h2>
+
+					<div class="botonesDiv">
+						
+						<button type="button" class="boton" id="firstButton">Entrar</button>
+						<button type="button" class="boton" id="newUser">Registrar un nou usuari</button>
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- Div de login inicial -->
+			
+			<div id="loginForm" style="display: none;">
+				
+				<form class="FormInicio">
+					<div>
+						<h2>
+							Iniciar sessió
+						</h2>
+						<label for="title"><h2>Correu electrònic:</h2></label>
+						
+						<input type="email" id="loginEmail">
+						
+					</div>
+					<div >
+						<label for="content" ><h2>Contrasenya:</h2> </label>
+						
+						<input type="password"  id="loginPassword">
+						
+					</div>
+					<div >
+						<button type="button" id="login">Entrar</button>
+						<button type="button" id="newUser2">Registrar un nou usuari</button>
+					</div>
+				</form>
+			</div>
+
+
+			<!-- Div de crear usuari -->
+			<div id="signupForm" style="display: none;">
+				<form class="FormInicio">
+					<div >
+						<h2>
+							Crear un compte
+						</h2>
+						<label for="title" >Correu electrònic:</label><br>
+						<input type="email" class="form-control" id="signupEmail">
+					</div>
+					<div>
+						<label for="content" >Contrasenya:</label><br>
+						<input type="password" id="signupPassword">
+					</div>
+					<div >
+						<label for="content" >Confirmar contrasenya:</label><br>
+						<input type="password"id="signupPasswordConfirm">
+					</div>
+					<div>
+						<label for="content" > Nom</label><br>
+						<input type="text" id="signupName">
+					</div>
+					<div>
+						<label for="content">Nom d'usuari</label><br>
+						<input type="text" id="signupUserName">
+					</div>
+					<div>
+						<label for="content">Foto de perfil</label><br>
+						<input type="file" name="perfilImage" id="imgPerfilSignup">
+					</div>
+					<div >
+						<button type="button" id="signup">Enviar</button>
+					</div>
+				</form>
+			</div>
+
+	</div>
+
+	<div class="divRed">
+
+		<!-- Div de subir y mostrar contenido -->
+		<div id="itemsForm" class="subirPost">
+			<form>
+				<input type="file" class="inputImg" id="image" style="display: none;">
+				<label for="image" class="custom-file-upload">
+					<img src="imatges/upload.png" alt="Upload Icon" class="upload-icon">
+					Pujar contingut
+				</label>
+				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 20px; visibility: hidden;" alt="imatge">
+				<textarea name="contenido" rows="4" cols="20" id="content" placeholder="Escriu un comentari en la fotografia."></textarea>
+				<button class="pico" type="button" id="save">Pico</button>
+				<input type="hidden" id="elementId">
+			</form>
+		</div>
+
+
+
+		<div class="alerta">
+			<div id="alert" role="alert"></div>
+		</div>
+		</div>
+		<div class="claseDivItems">
+			<link rel="import" href="formatoPost.html">
+		</div>
+		
+		<div id="listItems" style="display: none;" class="claseDivItems">
+		</div>
+		
+	</div>
+
+</body>
+
+
+
+<script language="javascript" src="js/config.js"></script>
+<script language="javascript" src="js/firestore.js"></script>
+<script language="javascript" src="js/storage.js"></script>
+<script language="javascript" src="js/items.js"></script>
+<script src="js/document.js"></script>
+
+</html>

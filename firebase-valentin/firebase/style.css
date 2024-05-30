@@ -1,0 +1,474 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.divInicios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    width: 100vw;
+    flex-direction: column;
+}
+
+.divRed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    flex-direction: column;
+}
+
+.divFotos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    width: 100vw;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 60px;
+    margin-bottom: 1rem;
+}
+
+.eleccionMetodo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: row;
+}
+
+.perfil {
+    width: 50vw;
+    height: 50vh;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.perfil img {
+    border-radius: 10000px;
+}
+
+.metodo {
+    width: 50vw;
+}
+
+.botonesDiv {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+}
+
+.boton {
+    width: 400px;
+    height: 50px;
+    margin: 1rem;
+    border: none;
+    border-radius: 500px;
+    background-color: #0ff140;
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.boton:hover {
+    background-color: #09c933;
+    color: white;
+}
+
+.FormInicio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 600px;
+    width: 400px;
+    border-radius: 20px;
+    background-color: white;
+    box-sizing: border-box;
+    border: 2px solid #0ff140;
+    /* box-shadow: 0px 0px 100px 0px #0ff140; */
+    color: black;
+}
+
+.FormInicio div {
+    width: 80%;
+}
+
+.FormInicio input {
+    height: 50px;
+    border: 2px solid black;
+    width: 40%;
+    border-radius: 500px;
+    color: black;
+    font-size: 15px;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    transition: 1s;
+}
+
+.FormInicio input:focus {
+    width: 100%;
+}
+
+.FormInicio input::placeholder {
+    color: black;
+}
+
+.FormInicio button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 500px;
+    background-color: #0ff140;
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 1rem;
+}
+
+.FormInicio button:hover {
+    background-color: #09c933;
+    color: white;
+}
+
+.alerta {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+textarea {
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin-top: 1rem;
+    color: black;
+    font-size: 15px;
+    max-height: 150px;
+    min-height: 150px;
+    resize: none;
+    color: black;
+}
+
+.inputImg {
+    width: 100%;
+    height: 100%;
+}
+
+.barra-separadora {
+    height: 1px;
+    background-color: #00145d;
+    margin-bottom: 1%;
+}
+
+#itemsForm {
+    display: none;
+}
+
+.subirPost {
+    position: relative;
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    background-color: #145eb45c;
+}
+
+.pico {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 20px 20px 0 20px;
+    background-color: #007BFF; /* Color de fondo */
+    border: none;
+    color: white; /* Color del texto */
+    padding: 10px 20px;
+    border-radius: 15px; /* Bordes redondeados */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.pico:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el ratón */
+    transform: scale(1.05);
+}
+
+.pico:active {
+    background-color: #004494; /* Color de fondo al hacer clic */
+    transform: scale(0.95);
+}
+
+.inputImg {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 10px 20px;
+}
+
+textarea {
+    width: calc(100% - 40px);
+    margin: 10px 20px;
+}
+
+.custom-file-upload {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.custom-file-upload img {
+    background-image: url(imatges/upload.png);
+    max-width: 20px;
+    max-height: 20px;
+    margin-right: 8px; /* Espacio entre el icono y el texto */
+}
+
+.custom-file-upload:hover {
+    background-color: #345400;
+}
+
+#itemsForm {
+    display: none;
+}
+
+.image-container {
+    width: 300px; /* Define el ancho del contenedor */
+    height: 300px; /* Define la altura del contenedor */
+    overflow: hidden; /* Oculta las partes de la imagen que se salen del contenedor */
+    position: relative;
+}
+
+.image-container img {
+    width: 100%; /* Ajusta el ancho de la imagen al 100% del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    position: absolute;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra la imagen */
+}
+
+.parteUser {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #09c933;
+    padding: 0;
+    position: relative;
+}
+
+.fotoPerfil {
+    width: 50px;
+    height: 15px;
+    border-radius: 10000px;
+    margin: 1rem;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.divContenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    background-color: rgb(34, 34, 34);
+    height:fit-content;
+    text-align: center;
+}
+
+
+
+.divImgContenido {
+    height: 400px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.divImgContenido img {
+    width: 100%;
+    height: 100%;
+    object-fit:contain;
+    object-position: center;
+}
+
+
+.pico {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 20px 20px 0 20px;
+    background-color: #007BFF; /* Color de fondo */
+    border: none;
+    color: white; /* Color del texto */
+    padding: 10px 20px;
+    border-radius: 15px; /* Bordes redondeados */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.pico:active {
+    background-color: #004494; /* Color de fondo al hacer clic */
+    transform: scale(0.95);
+}
+
+.inputImg {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 10px 20px;
+}
+
+textarea {
+    width: calc(100% - 40px);
+    margin: 10px 20px;
+}
+
+/* ----------------- */
+/* PRUEBA */
+/* -------------- */
+
+.post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 700px;
+    background-color: black;
+    margin-top: 1rem;
+}
+
+
+.fotoPerfil img {
+    width: 40px;
+    border-radius: 10000px;
+}
+
+/* Nuevos estilos */
+
+.dropdown-toggle{
+
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+}
+
+.dropdown-toggle:focus{
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.dropdown-toggle::after {
+    display: none; /* Elimina la flecha del dropdown */
+}
+
+.username {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 16px;
+}
+
+#dropdownMenuButton {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    background-color: transparent;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 15px;
+    padding: 0;
+
+
+    width: 50px;
+    height: 15px;
+    margin: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dropdownMenuButton .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dropdownMenuButton .icon::before {
+    content: "\2022 \2022 \2022";
+}
+#dropdownMenuButton :hover{
+    color: #345400;
+    font-size: 23px;
+}
+#dropdownMenuButton :focus{
+/* QUIERO VER COMO QUITAR EL CUADRADO GRIS QUE SALE CUANDO HACES CLICK EN LOS TRES PUNTOS PERO NO SE COMOOOOOOO 😢*/
+color: #345400;
+font-size: 23px;
+
+}
+
+
+
+
+
+
+
+
+.claseDivItems{
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+
+
+
