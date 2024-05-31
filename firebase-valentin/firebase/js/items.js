@@ -1,7 +1,7 @@
 const items = db.collection("publicacio");
 const storageRef = storage.ref();
 const comentari = db.collection("comentari");
-
+var uniqueId = 0;
 function addItem(doc) {
     var uid = firebase.auth().currentUser.uid;
     var content = document.getElementById("content").value;
@@ -78,6 +78,7 @@ function loadItems() {
             document.getElementById("listItems").innerHTML = "";
             arrayItems.forEach((doc) => {
                 let image = "imatges/LogoPico.png"; 
+   
                 
                 //guardar el id del usuario actual en una variable
                 var uidActual = firebase.auth().currentUser.uid;
@@ -95,7 +96,7 @@ function loadItems() {
 
                         if (uidActual == uid) {
 
-                            document.getElementById("listItems").innerHTML += `
+                            document.getElementById("listItems").insertAdjacentHTML('beforeend',`
                             <div class="post">
                                 <div class="parteUser">
                                     <div class="fotoPerfil">
@@ -121,13 +122,16 @@ function loadItems() {
                                     <div class="divTextoContenido">
                                         ${doc.data().content}
                                     </div>
+                                    <div class="divLike">
+                                    <button class="btnLike" id="botonComentario${uniqueId}">Comentaris</button>
+                                </div>
                                 </div>
                             </div>
-                            `;
+                            `);
                         }else{
                             
                             
-                            document.getElementById("listItems").innerHTML += `
+                            document.getElementById("listItems").insertAdjacentHTML('beforeend',`
                             <div class="post">
                                 <div class="parteUser">
                                     <div class="fotoPerfil">
@@ -148,14 +152,23 @@ function loadItems() {
                                         ${doc.data().content}
                                     </div>
                                     <div class="divLike">
-                                        <button class="btnLike" onclick="irComentarios(doc)">Comentaris</button>
+                                        <button class="btnLike" id="botonComentario${uniqueId}">Comentaris</button>
                                     </div>
+                                 
                                 </div>
                             </div>
-                            `;
+                            `);
+                            
 
                         }
 
+                        
+
+                        document.getElementById(`botonComentario${uniqueId}`).addEventListener('click', function() {
+                            irComentarios(doc.id); // Suponiendo que doc.id es el ID del objeto que quieres pasar
+                        });
+
+                        uniqueId++;
 
                     })
                     .catch(() => {
@@ -220,6 +233,7 @@ function updateItem(id, doc) {
 
 
 document.getElementById('image').addEventListener('change', function() {
+    console.log("IMagen");
     var file = this.files[0];
     if (file) {
         var reader = new FileReader();
@@ -245,54 +259,30 @@ document.getElementById('image').addEventListener('change', function() {
 // .......................................................
 
 
-function irComentarios(doc){
+//Listener para el boton de comentarios
 
+
+
+
+
+
+function irComentarios(idComentari) {
+
+    console.log("ID: " + idComentari);
     document.getElementById("inicio").style.display = "none";
-    document.getElementById("divPaginaComentarios").style.display = "flex";
+    document.getElementById("divPaginaComentario").style.display = "flex";
     document.getElementById("listItems").style.display = "none";
 
-    var uid = doc.data().uid;
-    var content = doc.data().content;
-    var image = doc.data().image;
-    var id = doc.id;
-    var uidActual = firebase.auth().currentUser.uid;
+
+
+    // var uid = doc.data().uid;
+    // var content = doc.data().content;
+    // var image = doc.data().image;
+    // var id = doc.id;
+    // var uidActual = firebase.auth().currentUser.uid;
 
 
 
-    selectAll(comentari)
-        .then((arrayComent) => {
-            document.getElementById("divPaginaComentario").innerHTML = "";
-            arrayComent.forEach((doc) => {
-                
-                db.collection('usuari').doc(uid).get()
-                    .then((userDoc) => {
-
-                        // Mostrar los comentarios de un post
-                        document.getElementById("divPaginaComentario").innerHTML += `
-                            <div>
-
-                                <div>
-
-                                </div>
-
-                            </div>
-                            `;
-
-                        
-
-                    })
-                    .catch(() => {
-                        if(document.getElementById("inicio").style.display == "none"){
-                            showAlert("Error al obtener el nombre de usuario", "alert-danger");
-                        }
-                    });
-            });
-        })
-        .catch(() => {
-            if(document.getElementById("inicio").style.display == "none"){
-                showAlert("Error al mostrar els elements", "alert-danger");
-            }
-        });
 
 
 }
