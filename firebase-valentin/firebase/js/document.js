@@ -186,3 +186,31 @@ document.getElementById("save").addEventListener("click", function () {
 document.getElementById("image").addEventListener("change", function () {
     imatgeModificada = true;
 });
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById("botonVolver").addEventListener("click", function () {
+
+
+    document.getElementById("divPaginaComentario").style.display = "none";
+    document.getElementById("botonVolver").style.display = "none";
+    document.getElementById("listItems").style.display = "flex";
+    document.getElementById("itemsForm").style.display = "block";
+
+});
+
+
+
+
+
+
+
+

@@ -273,6 +273,7 @@ function irComentarios(idComentari) {
     document.getElementById("itemsForm").style.display = "none";
     document.getElementById("divPaginaComentario").style.display = "flex";
     document.getElementById("listItems").style.display = "none";
+    document.getElementById("botonVolver").style.display = "block";
 
     //Encontrar el post con el id
     db.collection('publicacio').doc(idComentari).get()
@@ -351,40 +352,69 @@ function addComentari(idComentari) {
     var content = document.getElementById("comentario").value;
     var imageFile = document.getElementById("image").files[0];
 
-    // Crear una referencia a 'images/uid/filename'
-    var imageRef = storageRef.child('images/' + uid + '/' + imageFile.name);
 
-    // Subir el archivo de imagen a Firebase Storage
-    var uploadTask = imageRef.put(imageFile);
+    if (imageFile) {
+        // Crear una referencia a 'images/uid/filename'
+        var imageRef = storageRef.child('images/' + uid + '/' + imageFile.name);
+    
+        // Subir el archivo de imagen a Firebase Storage
+        var uploadTask = imageRef.put(imageFile);
+    
+        // Escuchar los cambios de estado
 
-    // Escuchar los cambios de estado
-    uploadTask.on('state_changed', function(snapshot) {
-        // Puedes mostrar una barra de progreso con snapshot.bytesTransferred / snapshot.totalBytes
-    }, function(error) {
-        // Manejar el error de subida
-        showAlert("Error al subir la imagen", "alert-danger");
-    }, function() {
-        // Cuando la subida se ha completado con éxito, obtener la URL de la imagen
-        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-            // Añadir un nuevo documento a la colección 'comentari' con la URL de la imagen
-            db.collection('comentari').add({
-                usuari: uid,
-                missatge: content,
-                publicacio: idComentari,
-                data: new Date().toLocaleString(),
-                imatge: downloadURL ? downloadURL : null
-            })
-            .then(() => {
-                document.getElementById("comentario").value = "";
-                loadComentaris(idComentari);
-                
+        // Escuchar los cambios de estado
+        uploadTask.on('state_changed', function(snapshot) {
+            // Puedes mostrar una barra de progreso con snapshot.bytesTransferred / snapshot.totalBytes
+        }, function(error) {
+            // Manejar el error de subida
+            showAlert("Error al subir la imagen", "alert-danger");
+        }, function() {
+            // Cuando la subida se ha completado con éxito, obtener la URL de la imagen
+            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                // Añadir un nuevo documento a la colección 'comentari' con la URL de la imagen
+                db.collection('comentari').add({
+                    usuari: uid,
+                    missatge: content,
+                    publicacio: idComentari,
+                    data: new Date().toLocaleString(),
+                    imatge: downloadURL ? downloadURL : null
+                })
+                .then(() => {
+                content.value = "";
+                    loadComentaris(idComentari);
+                    
 
-                showAlert("Comentari guardat correctament", "alert-success");
-            })
-          
+                    showAlert("Comentari guardat correctament", "alert-success");
+                })
+            
+            });
+
         });
+        
+    } else {
+        // Añadir un nuevo documento a la colección 'comentari' sin la URL de la imagen
+        db.collection('comentari').add({
+            usuari: uid,
+            missatge: content,
+            publicacio: idComentari,
+            data: new Date().toLocaleString(),
+            imatge: null
+        })
+        .then(() => {
+            console.log("Comentario guardado");
+            document.getElementById("comentario").value = "";
 
-    });
+            loadComentaris(idComentari);
+            showAlert("Comentari guardat correctament", "alert-success");
+        })
+        .catch(() => {
+            showAlert("Error al intentar guardar el comentari", "alert-danger");
+        });
+    }
+
+
+  
+
 }
 
 
@@ -396,103 +426,88 @@ function addComentari(idComentari) {
 // Cargar los comentarios de un post
 
 
-
-
 function loadComentaris(idPublicacion) {
-  
+    console.log("Inicio de loadComentaris");
+    
     var comentari = db.collection("comentari");
     document.getElementById("comentarios").style.display = "flex";
+    
     selectAll(comentari)
         .then((arrayItems) => {
-            //Recorrer todos los comentarios
-
+            console.log("Comentarios obtenidos:", arrayItems.length);
+            var usuarioActual = firebase.auth().currentUser.uid;
             arrayItems.forEach((doc) => {
-                
                 let usuariComentador = doc.data().usuari;
                 let missatgeComentario = doc.data().missatge;
                 let dataComentario = doc.data().data;
                 let imatgeComentario = doc.data().imatge;
                 let publicacioComentada = doc.data().publicacio;
 
-                console.log("ID: " + idPublicacion);
-                console.log("ID2: " + publicacioComentada);
-                console.log("Usuario que comenta: " + usuariComentador);
-                console.log("Mensaje: " + missatgeComentario);
-                console.log("Fecha: " + dataComentario);
-                console.log("Imagen: " + imatgeComentario);
-                console.log("-----------------");
-
-            
                 if (idPublicacion == publicacioComentada) {
-                    console.log("Comentario encontrado");
+                    console.log("Comentario encontrado para la publicacion:", idPublicacion);
+        
                     db.collection('usuari').doc(usuariComentador).get()
                         .then((userDoc) => {
                             var username = userDoc.data().nomUsuari;
                             var enlaceFoto = userDoc.data().foto;
-
                             
-                            
-                            if (imatgeComentario == null) {
+                            if (!imatgeComentario) {
                                 
                                 document.getElementById("divPaginaComentario").insertAdjacentHTML('beforeend', `
-                                <div class="comentario">
-                                    <div class="parteUser">
-                                        <div class="fotoPerfil">
-                                            <img src="${enlaceFoto}" alt="Perfil">
+                                    <div class="comentario">
+                                        <div class="parteUser">
+                                            <div class="fotoPerfil">
+                                                <img src="${enlaceFoto}" alt="Perfil">
+                                            </div>
+                                            <div class="username">
+                                                ${username}
+                                            </div>
                                         </div>
-                                        <div class="username">
-                                            ${username}
+                                        <div class="divContenido">
+                                            <div class="divTextoContenido">
+                                                ${missatgeComentario}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="divContenido">
-                                        <div class="divTextoContenido">
-                                            ${missatgeComentario}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <br>
-                            `);
-                            console.log("Elemento encontrado");
-                        
-                      
-                    
-                            }else{
+                                    <br>
+                                `);
+                            } else {
                                 document.getElementById("divPaginaComentario").insertAdjacentHTML('beforeend', `
-                                <div class="comentario">
-                                    <div class="parteUser">
-                                        <div class="fotoPerfil">
-                                            <img src="${enlaceFoto}" alt="Perfil">
+                                    <div class="comentario">
+                                        <div class="parteUser">
+                                            <div class="fotoPerfil">
+                                                <img src="${enlaceFoto}" alt="Perfil">
+                                            </div>
+                                            <div class="username">
+                                                ${username}
+                                            </div>
                                         </div>
-                                        <div class="username">
-                                            ${username}
+                                        <div class="divContenido">
+                                            <div class="divImgContenido">
+                                                <img src="${imatgeComentario}">
+                                            </div>
+                                            <div class="divTextoContenido">
+                                                ${missatgeComentario}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="divContenido">
-                                        <div class="divImgContenido">
-                                            <img src="${imatgeComentario}">
-                                        </div>
-                                        <div class="divTextoContenido">
-                                            ${missatgeComentario}
-                                        </div>
-                       
-                                    </div>
-                                </div>
-
-                                <br>
-                            `);
-                            console.log("Elemento encontrado");
-                        }
-                        }
-                    )
-            
+                                    <br>
+                                `);
+                            }
+                            console.log("Elemento agregado al DOM");
+                        })
+                        .catch((error) => {
+                            console.error("Error al obtener el usuario que comenta:", error);
+                        });
                 }
             });
         })
-    .catch(() => {
-        showAlert("Error al mostrar els elements", "alert-danger");
-    });
+        .catch((error) => {
+            console.error("Error al mostrar los comentarios:", error);
+            showAlert("Error al mostrar els elements", "alert-danger");
+        });
 }
+
 
 // TODO ESTO ES PARA LA FUNCION DEL BOTON
 // Mostrar el botón solo después de hacer login
