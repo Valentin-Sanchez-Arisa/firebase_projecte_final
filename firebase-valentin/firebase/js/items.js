@@ -270,25 +270,229 @@ function irComentarios(idComentari) {
 
     console.log("ID: " + idComentari);
     document.getElementById("inicio").style.display = "none";
+    document.getElementById("itemsForm").style.display = "none";
     document.getElementById("divPaginaComentario").style.display = "flex";
     document.getElementById("listItems").style.display = "none";
 
+    //Encontrar el post con el id
+    db.collection('publicacio').doc(idComentari).get()
+            .then((doc) => {
+                let image = "imatges/LogoPico.png";
+                if (doc.data().image != null) {
+                    image = doc.data().image;
+                }
+                let uid = doc.data().uid;
+                db.collection('usuari').doc(uid).get()
+                    .then((userDoc) => {
+                        var username = userDoc.data().nomUsuari;
+                        var enlaceFoto = userDoc.data().foto;
+                        document.getElementById("divPaginaComentario").innerHTML = `
+                        <div class="post">
+                            <div class="parteUser">
+                                <div class="fotoPerfil">
+                                    <img src="${enlaceFoto}" alt="Perfil">
+                                </div>
+                                <div class="username">
+                                    ${username}
+                                </div>
+                            </div>
+                            <div class="divContenido">
+                                <div class="divImgContenido">
+                                    <img src="${image}" alt="${doc.data().content}">
+                                </div>
+                                <div class="divTextoContenido">
+                                    ${doc.data().content}
+                                </div>
+                            </div>
+                            <div class="addComent">
+                                <div class="divComentario2">
+                                    <textarea id="comentario" class="textComent" placeholder="Escriu un comentari"></textarea> 
+                                    <input type="file" class="inputImg" id="image" style="display: none;">
+				                    <label for="image" class="custom-file-upload">
+					                    <img src="imatges/upload.png" alt="Upload Icon" class="upload-icon">
+					                    Pujar contingut
+				                    </label>
+
+                                    <button onclick="addComentari('${idComentari}')" class="boton">Comentar</button>
+                                </div>
+
+                            </div>
+                                    
+                        </div>
+
+                        <br>
+                        <h2>Comentaris</h2>
+                        <br>
+
+                        `;
+                    })
+                    .catch(() => {
+                        showAlert("Error al obtener el nombre de usuario", "alert-danger");
+                    });
+            })
+            .catch(() => {
+                showAlert("Error al obtener el post", "alert-danger");
+            });
 
 
-    // var uid = doc.data().uid;
-    // var content = doc.data().content;
-    // var image = doc.data().image;
-    // var id = doc.id;
-    // var uidActual = firebase.auth().currentUser.uid;
-
-
-
+    loadComentaris(idComentari);
 
 
 }
 
 
 
+
+
+// Añadir un comentario
+
+function addComentari(idComentari) {
+    var uid = firebase.auth().currentUser.uid;
+    var content = document.getElementById("comentario").value;
+    var imageFile = document.getElementById("image").files[0];
+
+    // Crear una referencia a 'images/uid/filename'
+    var imageRef = storageRef.child('images/' + uid + '/' + imageFile.name);
+
+    // Subir el archivo de imagen a Firebase Storage
+    var uploadTask = imageRef.put(imageFile);
+
+    // Escuchar los cambios de estado
+    uploadTask.on('state_changed', function(snapshot) {
+        // Puedes mostrar una barra de progreso con snapshot.bytesTransferred / snapshot.totalBytes
+    }, function(error) {
+        // Manejar el error de subida
+        showAlert("Error al subir la imagen", "alert-danger");
+    }, function() {
+        // Cuando la subida se ha completado con éxito, obtener la URL de la imagen
+        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            // Añadir un nuevo documento a la colección 'comentari' con la URL de la imagen
+            db.collection('comentari').add({
+                usuari: uid,
+                missatge: content,
+                publicacio: idComentari,
+                data: new Date().toLocaleString(),
+                imatge: downloadURL ? downloadURL : null
+            })
+            .then(() => {
+                document.getElementById("comentario").value = "";
+                loadComentaris(idComentari);
+                
+
+                showAlert("Comentari guardat correctament", "alert-success");
+            })
+          
+        });
+
+    });
+}
+
+
+
+
+
+
+
+// Cargar los comentarios de un post
+
+
+
+
+function loadComentaris(idPublicacion) {
+  
+    var comentari = db.collection("comentari");
+    document.getElementById("comentarios").style.display = "flex";
+    selectAll(comentari)
+        .then((arrayItems) => {
+            //Recorrer todos los comentarios
+
+            arrayItems.forEach((doc) => {
+                
+                let usuariComentador = doc.data().usuari;
+                let missatgeComentario = doc.data().missatge;
+                let dataComentario = doc.data().data;
+                let imatgeComentario = doc.data().imatge;
+                let publicacioComentada = doc.data().publicacio;
+
+                console.log("ID: " + idPublicacion);
+                console.log("ID2: " + publicacioComentada);
+                console.log("Usuario que comenta: " + usuariComentador);
+                console.log("Mensaje: " + missatgeComentario);
+                console.log("Fecha: " + dataComentario);
+                console.log("Imagen: " + imatgeComentario);
+                console.log("-----------------");
+
+            
+                if (idPublicacion == publicacioComentada) {
+                    console.log("Comentario encontrado");
+                    db.collection('usuari').doc(usuariComentador).get()
+                        .then((userDoc) => {
+                            var username = userDoc.data().nomUsuari;
+                            var enlaceFoto = userDoc.data().foto;
+
+                            
+                            
+                            if (imatgeComentario == null) {
+                                
+                                document.getElementById("divPaginaComentario").insertAdjacentHTML('beforeend', `
+                                <div class="comentario">
+                                    <div class="parteUser">
+                                        <div class="fotoPerfil">
+                                            <img src="${enlaceFoto}" alt="Perfil">
+                                        </div>
+                                        <div class="username">
+                                            ${username}
+                                        </div>
+                                    </div>
+                                    <div class="divContenido">
+                                        <div class="divTextoContenido">
+                                            ${missatgeComentario}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                            `);
+                            console.log("Elemento encontrado");
+                        
+                      
+                    
+                            }else{
+                                document.getElementById("divPaginaComentario").insertAdjacentHTML('beforeend', `
+                                <div class="comentario">
+                                    <div class="parteUser">
+                                        <div class="fotoPerfil">
+                                            <img src="${enlaceFoto}" alt="Perfil">
+                                        </div>
+                                        <div class="username">
+                                            ${username}
+                                        </div>
+                                    </div>
+                                    <div class="divContenido">
+                                        <div class="divImgContenido">
+                                            <img src="${imatgeComentario}">
+                                        </div>
+                                        <div class="divTextoContenido">
+                                            ${missatgeComentario}
+                                        </div>
+                       
+                                    </div>
+                                </div>
+
+                                <br>
+                            `);
+                            console.log("Elemento encontrado");
+                        }
+                        }
+                    )
+            
+                }
+            });
+        })
+    .catch(() => {
+        showAlert("Error al mostrar els elements", "alert-danger");
+    });
+}
 
 
 

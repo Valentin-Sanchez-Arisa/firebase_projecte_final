@@ -342,6 +342,56 @@ textarea {
 }
 
 
+.addComent{
+
+    border: #00145d solid 1px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 100%;
+    padding: 0px;
+    background-color: grey;
+
+}
+
+
+.divComentario2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+
+}
+
+
+.comentario{
+
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+}
+
+.textComent{
+
+    width: 100%;
+
+
+}
+
+
+
 .pico {
     display: block;
     width: calc(100% - 40px);
@@ -488,6 +538,23 @@ font-size: 23px;
 
 
 
+.divPaginaComentario{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: black;
+    color: white;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+}
+
+
+
 /* css cambiado para hacer zoom a la imagen */
 /* The Modal (background) */
 .modal {
@@ -549,5 +616,53 @@ font-size: 23px;
 .close:focus {
     color: #bbb;
     text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+
+/* botón para seleccionar foto de perfil */
+#imgContainer {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s, background-color 0.3s; /* Agregamos transición para el efecto hover */
+    padding: 0px; /* Añadimos espacio alrededor del contenido */
+    border: 1px solid #ccc; /* Añadimos un borde */
+    border-radius: 1000px; /* Hacemos que el borde sea ligeramente redondeado */
+    width: 30px; /* Establecemos el ancho al contenido */
+    height: 30px;
+    color: transparent;
+    transition: 0.5s ease ;
+    overflow: hidden ;
+    padding: 1px;
+}
+
+#imgContainer:hover {
+    width: 150px;
+    height: 30px;
+    color: black;
+    background-color: lightgreen; /* Cambiamos el color de fondo al hacer hover */
+    border-radius: 1000px;
+}
+
+#imgPerfilPreview {
+    width: 25px;
+    height: 20px;
+    margin-right: 5px; /* Espacio entre la imagen y el texto */
+}
+
+#imgContainer:hover #imgPerfilPreview {
+    transform: scale(1.1); /* Escalamos la imagen al hacer hover */
+}
+
+#imgContainer span {
+    font-size: 16px; /* Tamaño de la fuente */
+    margin-left: 5px; /* Espacio entre la imagen y el texto */
+    white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+}
+
+#uploadContainer {
+    display: inline-block;
     cursor: pointer;
 }

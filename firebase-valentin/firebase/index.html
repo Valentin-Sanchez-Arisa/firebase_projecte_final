@@ -73,41 +73,73 @@
 
 
 			<!-- Div de crear usuari -->
-			<div id="signupForm" style="display: none;">
-				<form class="FormInicio">
-					<div >
-						<h2>
-							Crear un compte
-						</h2>
-						<label for="title" >Correu electrònic:</label><br>
-						<input type="email" class="form-control" id="signupEmail">
-					</div>
-					<div>
-						<label for="content" >Contrasenya:</label><br>
-						<input type="password" id="signupPassword">
-					</div>
-					<div >
-						<label for="content" >Confirmar contrasenya:</label><br>
-						<input type="password"id="signupPasswordConfirm">
-					</div>
-					<div>
-						<label for="content" > Nom</label><br>
-						<input type="text" id="signupName">
-					</div>
-					<div>
-						<label for="content">Nom d'usuari</label><br>
-						<input type="text" id="signupUserName">
-					</div>
-					<div>
-						<label for="content">Foto de perfil</label><br>
-						<input type="file" name="perfilImage" id="imgPerfilSignup">
-					</div>
-					<div >
-						<button type="button" id="signup">Enviar</button>
-					</div>
-				</form>
+		<!-- Div de crear usuario -->
+	<div id="signupForm" style="display: none;">
+		<form class="FormInicio">
+			<div>
+				<h2>Crear un cuenta</h2>
+				<label for="title">Correu electrònic:</label><br>
+				<input type="email" class="form-control" id="signupEmail">
 			</div>
+			<div>
+				<label for="content">Contrasenya:</label><br>
+				<input type="password" id="signupPassword">
+			</div>
+			<div>
+				<label for="content">Confirmar contrasenya:</label><br>
+				<input type="password" id="signupPasswordConfirm">
+			</div>
+			<div>
+				<label for="content">Nom</label><br>
+				<input type="text" id="signupName">
+			</div>
+			<div>
+				<label for="content">Nom d'usuari</label><br>
+				<input type="text" id="signupUserName">
+			</div>
+			<br>
+			<div id="uploadContainer" style="display: inline-block; cursor: pointer;">
+				<!-- Contenedor para el icono y el texto -->
+				<div id="imgContainer">
+					<img src="imatges/upload.png" alt="Subir foto de perfil" id="imgPerfilPreview">
+					<span>Foto Perfil</span>
+				</div>
+				<!-- Oculta el input de tipo file -->
+				<input type="file" name="perfilImage" id="imgPerfilSignup" style="display: none;">
+			</div>
+			<div>
+				<button type="button" id="signup">Enviar</button>
+			</div>
+		</form>
+	</div>
 
+	<script>
+		// Espera a que el DOM esté completamente cargado
+		document.addEventListener("DOMContentLoaded", function () {
+			// Obtén los elementos necesarios
+			var uploadContainer = document.getElementById("uploadContainer");
+			var fileInput = document.getElementById("imgPerfilSignup");
+			var imgPreview = document.getElementById("imgPreview");
+
+			// Cuando se haga clic en el contenedor, activar el selector de archivos
+			uploadContainer.addEventListener("click", function () {
+				fileInput.click();
+			});
+
+			// Cuando se seleccione una imagen, mostrarla en miniatura
+			fileInput.addEventListener("change", function () {
+				var file = fileInput.files[0];
+				if (file) {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						imgPreview.src = e.target.result;
+						imgPreview.style.display = "inline"; // Mostrar la imagen previa
+					};
+					reader.readAsDataURL(file);
+				}
+			});
+		});
+	</script>
 	</div>
 
 	<div class="divRed">
@@ -122,7 +154,7 @@
 				</label>
 				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 20px; visibility: hidden;">
 				<textarea name="contenido" rows="4" cols="20" id="content" placeholder="Escriu un comentari en la fotografia."></textarea>
-				<button class="pico" type="button" id="save">Pico</button>
+				<button class="boton" type="button" id="save">Pico</button>
 				<input type="hidden" id="elementId">
 			</form>
 		</div>
@@ -160,8 +192,11 @@
 
 	<div id="divPaginaComentario" class="divPaginaComentario" style="display: none;">
 
-		
 
+
+		<div id="comentarios">
+
+		</div>
 	</div>
 
 
