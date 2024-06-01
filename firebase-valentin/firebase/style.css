@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+    background-color: rgb(63, 41, 255);
     color: white;
     font-family: Arial, sans-serif;
     padding: 0;
@@ -85,6 +85,22 @@ h1 {
 }
 
 .boton:hover {
+    background-color: #09c933;
+    color: white;
+}
+.postear{
+    width: 175px;
+    height: 50px;
+    margin: 1rem;
+    border: none;
+    border-radius: 500px;
+    background-color: #0ff140;
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.postear:hover{
     background-color: #09c933;
     color: white;
 }
@@ -529,7 +545,7 @@ font-size: 23px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: black;
+    background-color: rgb(63, 41, 255);
     color: white;
     box-sizing: border-box;
 
@@ -545,7 +561,7 @@ font-size: 23px;
     align-items: center;
     flex-direction: column;
     width: 100%;
-    background-color: black;
+    background-color: rgb(63, 41, 255);
     color: white;
     box-sizing: border-box;
     padding: 0;
@@ -666,3 +682,75 @@ font-size: 23px;
     display: inline-block;
     cursor: pointer;
 }
+/* botón para seleccionar foto de perfil */
+#imgContainer {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s, background-color 0.3s; /* Agregamos transición para el efecto hover */
+    border-radius: 1000px; /* Hacemos que el borde sea ligeramente redondeado */
+    width: 30px; /* Establecemos el ancho al contenido */
+    height: 30px;
+    color: transparent;
+    transition: 0.5s ease ;
+    overflow: hidden ;
+}
+
+#imgContainer:hover {
+    width: 228px;
+    height: 30px;
+    color: black;
+    background-color: lightgreen; /* Cambiamos el color de fondo al hacer hover */
+    border-radius: 1000px;
+}
+
+#imgPerfilPreview {
+    width: 30px;
+    height: 20px;
+}
+
+#imgContainer:hover #imgPerfilPreview {
+    transform: scale(1.1); /* Escalamos la imagen al hacer hover */
+}
+
+#imgContainer span {
+    font-size: 16px; /* Tamaño de la fuente */
+    margin-left: 2px; /* Espacio entre la imagen y el texto */
+    white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+}
+
+#uploadContainer {
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* ESTILOS BOTON PARA SUBIR */
+#scrollTopButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: transparent; /* Fondo transparente para solo mostrar la imagen */
+    border: none;
+    padding: 10px; /* Ajustar el padding para un mejor diseño */
+    cursor: pointer;
+    z-index: 1000;
+    display: none; /* Inicialmente oculto */
+    visibility: hidden; /* Oculto por defecto, se muestra cuando el usuario hace scroll */
+    transition: transform 0.3s ease; /* Transición para un efecto suave */
+}
+
+#scrollTopButton img {
+    width: 40px; /* Ajustar el tamaño de la imagen */
+    height: 40px; /* Ajustar el tamaño de la imagen */
+    transition: transform 0.3s ease; /* Transición para un efecto suave */
+}
+
+#scrollTopButton:hover img {
+    transform: scale(1.2); /* Hacer la imagen 20% más grande */
+}
+
+#scrollTopButton:hover {
+    background-color: transparent; /* Asegurar que el fondo sigue transparente en hover */
+}
+
+
+

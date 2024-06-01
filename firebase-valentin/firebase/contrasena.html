@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar contrasenya</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+    <script defer src="js/config.js"></script>
+    <script defer src="./js/recuperarcontrasena.js"></script>
+    <link rel="icon" href="imatges/ico.png" type="image/png">
+    <style>
+        body {
+            background-color: rgb(63, 41, 255);
+            font-family: Arial, sans-serif;
+            color: black;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .container {
+            margin-top: 100px;
+            max-width: 400px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            border-radius: 20px;
+        }
+        .btn {
+            border-radius: 20px;
+            background-color: #0ff140;
+            color: black;
+            font-size: 18px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #09c933;
+        }
+        .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+    color: #0ff140;
+    font-size: 20px;
+    transition: transform 0.3s; /* Agrega una transición suave */
+}
+
+.back-btn:hover {
+    transform: scale(1.2); /* Aumenta el tamaño al 120% al pasar el mouse sobre el botón */
+    color: #09c933;;
+}
+    </style>
+</head>
+<body>   
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <div class="container">
+        <h2 class="text-center">Recuperar contrasenya</h2>
+        <div class="form-group">
+            <input type="email" class="form-control" placeholder="Escriu el teu correu electrònic" id="loginRecuperar">
+        </div>
+        <button class="btn" onclick="sendPasswordReset()">Recuperar</button>
+    </div>
+</body>
+</html>

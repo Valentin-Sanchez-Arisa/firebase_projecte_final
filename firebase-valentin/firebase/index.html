@@ -37,6 +37,7 @@
 					<div class="botonesDiv">
 						
 						<button type="button" class="boton" id="firstButton">Entrar</button>
+						
 						<button type="button" class="boton" id="newUser">Registrar un nou usuari</button>
 					</div>
 				</div>
@@ -44,7 +45,7 @@
 			</div>
 
 
-			<!-- Div de login inicial -->
+<!-- Div de login inicial -->
 			
 			<div id="loginForm" style="display: none;">
 				
@@ -68,50 +69,53 @@
 						<button type="button" id="login">Entrar</button>
 						<button type="button" id="newUser2">Registrar un nou usuari</button>
 					</div>
+					<div>
+						<br>
+						<p><a href="contrasena.html">He oblidat la contrasenya</a></p>
+					</div>
 				</form>
 			</div>
 
 
-			<!-- Div de crear usuari -->
-		<!-- Div de crear usuario -->
-	<div id="signupForm" style="display: none;">
-		<form class="FormInicio">
-			<div>
-				<h2>Crear un cuenta</h2>
-				<label for="title">Correu electrònic:</label><br>
-				<input type="email" class="form-control" id="signupEmail">
-			</div>
-			<div>
-				<label for="content">Contrasenya:</label><br>
-				<input type="password" id="signupPassword">
-			</div>
-			<div>
-				<label for="content">Confirmar contrasenya:</label><br>
-				<input type="password" id="signupPasswordConfirm">
-			</div>
-			<div>
-				<label for="content">Nom</label><br>
-				<input type="text" id="signupName">
-			</div>
-			<div>
-				<label for="content">Nom d'usuari</label><br>
-				<input type="text" id="signupUserName">
-			</div>
-			<br>
-			<div id="uploadContainer" style="display: inline-block; cursor: pointer;">
-				<!-- Contenedor para el icono y el texto -->
-				<div id="imgContainer">
-					<img src="imatges/upload.png" alt="Subir foto de perfil" id="imgPerfilPreview">
-					<span>Foto Perfil</span>
-				</div>
-				<!-- Oculta el input de tipo file -->
-				<input type="file" name="perfilImage" id="imgPerfilSignup" style="display: none;">
-			</div>
-			<div>
-				<button type="button" id="signup">Enviar</button>
-			</div>
-		</form>
-	</div>
+<!-- Div de crear usuario -->
+<div id="signupForm" style="display: none;">
+    <form class="FormInicio">
+        <div>
+            <h2>Crear un cuenta</h2>
+            <label for="title">Correu electrònic:</label><br>
+            <input type="email" class="form-control" id="signupEmail">
+        </div>
+        <div>
+            <label for="content">Contrasenya:</label><br>
+            <input type="password" id="signupPassword">
+        </div>
+        <div>
+            <label for="content">Confirmar contrasenya:</label><br>
+            <input type="password" id="signupPasswordConfirm">
+        </div>
+        <div>
+            <label for="content">Nom</label><br>
+            <input type="text" id="signupName">
+        </div>
+        <div>
+            <label for="content">Nom d'usuari</label><br>
+            <input type="text" id="signupUserName">
+        </div>
+		<br>
+        <div id="uploadContainer" style="display: inline-block; cursor: pointer;">
+            <!-- Contenedor para el icono y el texto -->
+            <div id="imgContainer">
+                <img src="imatges/upload.png" alt="Subir foto de perfil" id="imgPerfilPreview">
+                <span>Selecciona foto de perfil</span>
+            </div>
+            <!-- Oculta el input de tipo file -->
+            <input type="file" name="perfilImage" id="imgPerfilSignup" style="display: none;">
+        </div>
+        <div>
+            <button type="button" id="signup">Registrar-se</button>
+        </div>
+    </form>
+</div>
 
 	<script>
 		// Espera a que el DOM esté completamente cargado
@@ -154,7 +158,7 @@
 				</label>
 				<img class="rounded" id="thumbnail" style="max-width: 60px; max-height: 20px; visibility: hidden;">
 				<textarea name="contenido" rows="4" cols="20" id="content" placeholder="Escriu un comentari en la fotografia."></textarea>
-				<button class="boton" type="button" id="save">Pico</button>
+				<button class="postear" type="button" id="save">Pico</button>
 				<input type="hidden" id="elementId">
 			</form>
 		</div>
@@ -201,8 +205,10 @@
 
 
 
-
-
+<!-- Botón para desplazar hacia arriba -->
+<button id="scrollTopButton" onclick="scrollToTop()">
+    <img src="imatges/amung.png" alt="Subir" />
+</button>
 
 
 

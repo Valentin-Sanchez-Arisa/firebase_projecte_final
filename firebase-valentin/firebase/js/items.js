@@ -494,6 +494,61 @@ function loadComentaris(idPublicacion) {
     });
 }
 
+// TODO ESTO ES PARA LA FUNCION DEL BOTON
+// Mostrar el botón solo después de hacer login
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        var scrollTopButton = document.getElementById("scrollTopButton");
+        scrollTopButton.style.display = "block"; // Mostrar el botón solo cuando el usuario está logueado
+    } else {
+        var scrollTopButton = document.getElementById("scrollTopButton");
+        scrollTopButton.style.display = "none"; // Ocultar el botón cuando el usuario no está logueado
+    }
+});
+
+// Mostrar el botón cuando el usuario hace scroll hacia abajo
+window.onscroll = function() {
+    var scrollTopButton = document.getElementById("scrollTopButton");
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        scrollTopButton.style.visibility = "visible";
+    } else {
+        scrollTopButton.style.visibility = "hidden";
+    }
+};
+
+// Función para desplazar hacia arriba
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// Obtén una referencia al botón de cerrar sesión
+var logoutButton = document.getElementById("logoutButton");
+
+// Agrega un evento click al botón de cerrar sesión
+logoutButton.addEventListener("click", function() {
+    firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        window.location.href = "login.html"; // Redirige al usuario a la página de inicio de sesión
+    }).catch(function(error) {
+        // An error happened.
+        console.log(error.message);
+    });
+});
+
+// Mostrar el botón de cerrar sesión solo después de iniciar sesión
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        logoutButton.style.display = "block"; // Muestra el botón de cerrar sesión
+        document.getElementById("divCentral").style.display = "block"; // Muestra el contenido
+    } else {
+        logoutButton.style.display = "none"; // Oculta el botón de cerrar sesión
+        document.getElementById("divCentral").style.display = "none"; // Oculta el contenido
+    }
+});
+
 
 
 
